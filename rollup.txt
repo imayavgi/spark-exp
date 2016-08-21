@@ -1,0 +1,16 @@
+val holdings = sc.textFile("/tmp/holdings.txt")
+val hfm = holdings.keyBy(_.split(",")(1).trim) s1 -> string
+val srm = sc.textFile("/tmp/srm.txt")
+val sfm = srm.keyBy(_.split(",")(0)) // s1 -> string
+val hosr = hfm.join(sfm)
+hosr.map(s => (s._2._1.split(",")(0)+"_"+s._2._2.split(",")(1) ,s._2._1.split(",")(2))).aggregateByKey(0)((n,v) => n+v.trim.toInt,_+_).sortByKey(true).collect.foreach(println)
+
+
+res5.map(_._2).keyBy(_._2.split(",")(1)).collect.foreach(println)
+
+
+
+
+hosr.map(s => (s._2._1.split(",")(0)+"_"+s._2._2.split(",")(1) ,s._2._1.split(",")(2))).aggregateByKey(0)((n,v) => n+1,_+_).collect.foreach(println)
+
+hosr.map(s => (s._2._1.split(",")(0)+"_"+s._2._2.split(",")(1) ,s._2._1.split(",")(2))).aggregateByKey(0)((n,v) => n+v.trim.toInt,_+_).collect.foreach(println)
